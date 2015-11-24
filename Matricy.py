@@ -1,14 +1,18 @@
 __author__ = 'student'
 class Matrix:
-    def __init__(self,m,n=None):
+    def __init__(self,m,n):
         A=[]
         self.m=m
         self.n=n
-        for x in range(m):
-            A.append([])
-            for y in range(n):
-                A[x].append(0)
-        self.A=A
+        if self.n>0 and self.m>0 and type(self.n)==int and type(self.m)==int:
+            for x in range(m):
+                A.append([])
+                for y in range(n):
+                    A[x].append(0)
+            self.A=A
+        if type(self.m)!=int or type(self.n)!=int or self.m<=0 or self.n<=0:
+            raise Exception('Ne izdevaysya nad matricey, irod!')
+
     def __add__(self, other):
         C=self.A
         J=self.A
@@ -17,8 +21,10 @@ class Matrix:
             for x in range(self.m):
                 for y in range(self.n):
                     C[x][y]=J[x][y]+K[x][y]
-        self.C=C
-        return self.C
+            self.C=C
+            return self.C
+        if self.m!=other.m or self.n!=other.n:
+            raise Exception('Chuvak,raznie razmeri')
     def determinant(self):
         if self.n==self.m:
             if self.n==2:
@@ -50,10 +56,10 @@ class Matrix:
     def get_size(self):
         return self.m,self.n
     def __mul__(self,other):
-        if type(other)==float or type(other)==int:
-            for x in range(self.n):
-                for y in range(self.m):
-                    self.A[x][y]=self.A[x][y]*other
+        for x in range(self.n):
+            for y in range(self.m):
+                self.A[x][y]=self.A[x][y]*other
+        return self.A
     #Umnozhenie FIXME!
     def set(self,i,j,value):
         self.A[i][j]=value
@@ -80,3 +86,6 @@ class Matrix:
             for y in range(self.n):
                 self.A[x][y]=self.A[x][y]/other
         return self.A
+A=Matrix(3,3)
+B=Matrix(3,3)
+print(A+B)
